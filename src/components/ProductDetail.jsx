@@ -1,7 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from './../producslice';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -9,6 +12,10 @@ const ProductDetail = () => {
   const { items: products, status } = useSelector((state) => state.product);
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState('');
+
+  useEffect(() => {
+    AOS.init({ duration: 600, once: true });
+  }, []);
 
   useEffect(() => {
     if (status === 'idle') dispatch(fetchProducts());
@@ -25,10 +32,10 @@ const ProductDetail = () => {
   if (!product) return <p>Loading product details...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="flex flex-col items-center">
-          <div className="w-full h-[500px] border rounded overflow-hidden">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col items-center" data-aos="zoom-in">
+          <div className="w-full h-72 sm:h-96 md:h-[500px] border rounded overflow-hidden">
             <img
               src={`https://admin.refabry.com/storage/product/${mainImage}`}
               alt={product.name}
@@ -43,7 +50,7 @@ const ProductDetail = () => {
                   key={img.id}
                   src={`https://admin.refabry.com/storage/product/${img.name}`}
                   alt="variant"
-                  className={`w-20 h-20 object-cover border-2 rounded  transition-all duration-200  ${mainImage === img.name ? 'border-blue-500' : 'border-gray-300'}`}
+                  className={`w-16 sm:w-20 h-16 sm:h-20 object-cover border-2 rounded transition-all duration-200 hover:scale-105 ${mainImage === img.name ? 'border-blue-500' : 'border-gray-300'}`}
                   onClick={() => setMainImage(img.name)}
                 />
               ))}
@@ -52,18 +59,20 @@ const ProductDetail = () => {
         </div>
 
         <div>
-          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
-          <p className="mb-2 text-gray-700">Price: <strong>{product.price} BDT</strong></p>
-          <p className="mb-2 text-gray-700">Stock: {product.stock}</p>
-          <p className="mb-2 text-gray-700">Category: {product.category?.name}</p>
-          <p className="mb-6 whitespace-pre-line">{product.short_desc}</p>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4" data-aos="fade-left" data-aos-delay="100">{product.name}</h1>
+          <p className="mb-2 text-gray-700" data-aos="fade-left" data-aos-delay="200">Price: <strong>{product.price} BDT</strong></p>
+          <p className="mb-2 text-gray-700" data-aos="fade-left" data-aos-delay="300">Stock: {product.stock}</p>
+          <p className="mb-2 text-gray-700" data-aos="fade-left" data-aos-delay="400">Category: {product.category?.name}</p>
+          <p className="mb-6 whitespace-pre-line text-sm sm:text-base" data-aos="fade-left" data-aos-delay="500">{product.short_desc}</p>
 
-          <Link
-            to={`/order/${product.id}`}
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
-          >
-            Place Order
-          </Link>
+          <div data-aos="fade-up" data-aos-delay="500">
+            <Link
+              to={`/order/${product.id}`}
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 text-sm sm:text-base"
+            >
+              Place Order
+            </Link>
+          </div>
         </div>
       </div>
     </div>

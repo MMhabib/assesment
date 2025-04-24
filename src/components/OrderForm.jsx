@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -54,12 +55,11 @@ const OrderForm = () => {
       });
   };
 
-  if (!product) return <p>Loading product...</p>;
+  if (!product) return <p className="text-center p-4">Loading product...</p>;
 
   return (
-    <div className="max-w-xl mx-auto">
-      <h2 className="text-xl font-bold mb-4">Order: {product.name}</h2>
-      <p className="mb-2 text-gray-700">Price: {product.price} BDT</p>
+    <div className="max-w-screen-md mx-auto px-4 sm:px-6 py-8">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Order: {product.name}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {['c_name', 'c_phone', 'courier', 'address'].map((field) => (
           <input
@@ -69,13 +69,13 @@ const OrderForm = () => {
             value={formData[field]}
             onChange={handleChange}
             placeholder={field.replace('_', ' ')}
-            className="w-full p-2 border rounded"
+            className="w-full p-3 border rounded shadow-sm"
             required
           />
         ))}
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="btn btn-primary w-full mt-4"
         >
           Submit Order
         </button>
