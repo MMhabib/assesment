@@ -8,7 +8,8 @@ import OrderForm from './components/OrderForm';
 
 function App() {
   return (
-    <div className="p-4 max-w-6xl mx-auto">
+    <div  className="p-4 max-w-6xl mx-auto">
+     
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/product/:id" element={<ProductDetail />} />
